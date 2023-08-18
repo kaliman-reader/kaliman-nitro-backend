@@ -3,7 +3,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const SIGNED_URL_EXPIRATION = 3600;
 
-export default eventHandler((event) => {
+export default eventHandler(async (event) => {
   const s3 = new S3({});
   const query = getQuery(event);
   const key = query.key as string;
@@ -11,7 +11,7 @@ export default eventHandler((event) => {
     Bucket: process.env.BUCKET_NAME,
     Key: key,
   });
-  const signedUrl = getSignedUrl(s3, command, {
+  const signedUrl = await getSignedUrl(s3, command, {
     expiresIn: SIGNED_URL_EXPIRATION,
   });
   return {
