@@ -1,4 +1,6 @@
-# Nitro Minimal Starter
+# Kaliman Reader Nitro Backend Server
+
+This backend deploys to AWS Lambda
 
 Look at the [Nitro documentation](https://nitro.unjs.io/) to learn more.
 
@@ -7,14 +9,8 @@ Look at the [Nitro documentation](https://nitro.unjs.io/) to learn more.
 Make sure to install the dependencies:
 
 ```bash
-# npm
-npm install
-
 # yarn
 yarn install
-
-# pnpm
-pnpm install
 ```
 
 ## Development Server
@@ -22,7 +18,7 @@ pnpm install
 Start the development server on <http://localhost:3000>
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 ## Production
@@ -30,13 +26,13 @@ npm run dev
 Build the application for production:
 
 ```bash
-npm run build
+yarn build
 ```
 
 Locally preview production build:
 
 ```bash
-npm run preview
+yarn preview
 ```
 
 Check out the [deployment documentation](https://nitro.unjs.io/deploy) for more information.
