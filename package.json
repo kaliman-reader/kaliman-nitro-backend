@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "scripts": {
+    "prepare": "nitropack prepare",
+    "dev": "nitropack dev",
+    "build": "nitropack build",
+    "build:lambda": "NITRO_PRESET=aws_lambda nitropack build && zip -r9 server.zip .output/server/**",
+    "preview": "node .output/server/index.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.385.0",
+    "@aws-sdk/s3-request-presigner": "^3.385.0",
+    "nitropack": "latest"
+  }
+}
