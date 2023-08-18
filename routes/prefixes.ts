@@ -2,8 +2,8 @@ import { S3 } from "@aws-sdk/client-s3";
 
 export default eventHandler(async (event) => {
   const s3 = new S3({});
-  const query = new URLSearchParams(event.context.params);
-  const prefix = query.get("prefix") || undefined;
+  const query = getQuery(event);
+  const prefix = query.prefix as string;
   const prefixes = await getFolders(s3, prefix);
   return prefixes;
 });

@@ -1,10 +1,10 @@
 {
-  "private": true,
+  "private": false,
   "scripts": {
     "prepare": "nitropack prepare",
     "dev": "nitropack dev",
     "build": "nitropack build",
-    "build:lambda": "NITRO_PRESET=aws_lambda nitropack build && zip -r9 server.zip .output/server/**",
+    "build:lambda": "NITRO_PRESET=aws_lambda nitropack build && cd .output/server && zip -r9 ../../server.zip *",
     "preview": "node .output/server/index.mjs"
   },
   "dependencies": {
