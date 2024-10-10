@@ -5,7 +5,7 @@
     "dev": "nitropack dev",
     "build": "nitropack build",
     "build:lambda": "NITRO_PRESET=aws_lambda nitropack build",
-    "postbuild:lambda": "ditto -c -k --sequesterRsrc --keepParent .output/server server.zip",
+    "postbuild:lambda": "ditto -c -k --sequesterRsrc .output/server server.zip",
     "preview": "node .output/server/index.mjs"
   },
   "dependencies": {

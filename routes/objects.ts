@@ -9,7 +9,7 @@ export default eventHandler(async (event) => {
   const cloudfrontDistributionDomain = config.awsCfBaseUrl;
   const url = `${cloudfrontDistributionDomain}/${key}`;
   const privateKey = await getSecret(config.awsCfPrivateKeyName);
-  const keyPairId = process.env.awsCfKeyPairId;
+  const keyPairId = config.awsCfKeyPairId;
   const dateLessThan = addMinutes(new Date(), 10).toISOString();
 
   const signedUrl = getSignedUrl({
