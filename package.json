@@ -9,7 +9,11 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.385.0",
+    "@aws-sdk/client-secrets-manager": "^3.668.0",
+    "@aws-sdk/cloudfront-signer": "^3.662.0",
     "@aws-sdk/s3-request-presigner": "^3.385.0",
-    "nitropack": "latest"
+    "date-fns": "^4.1.0",
+    "nitropack": "latest",
+    "pdf-lib": "^1.17.1"
   }
 }
