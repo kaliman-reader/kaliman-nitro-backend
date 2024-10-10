@@ -1,19 +1,24 @@
-import { GetObjectCommand, S3 } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-
-const SIGNED_URL_EXPIRATION = 3600;
+import { getSignedUrl } from "@aws-sdk/cloudfront-signer";
+import { addMinutes } from "date-fns";
 
 export default eventHandler(async (event) => {
-  const s3 = new S3({});
   const query = getQuery(event);
+  const config = useRuntimeConfig(event);
   const key = query.key as string;
-  const command = new GetObjectCommand({
-    Bucket: process.env.BUCKET_NAME,
-    Key: key,
+
+  const cloudfrontDistributionDomain = config.awsCfBaseUrl;
+  const url = `${cloudfrontDistributionDomain}/${key}`;
+  const privateKey = await getSecret(config.awsCfPrivateKeyName);
+  const keyPairId = process.env.awsCfKeyPairId;
+  const dateLessThan = addMinutes(new Date(), 10).toISOString();
+
+  const signedUrl = getSignedUrl({
+    url,
+    keyPairId,
+    dateLessThan,
+    privateKey: privateKey.replace(/\\n/g, "\n"),
   });
-  const signedUrl = await getSignedUrl(s3, command, {
-    expiresIn: SIGNED_URL_EXPIRATION,
-  });
+
   return {
     url: signedUrl,
   };
