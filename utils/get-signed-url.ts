@@ -5,7 +5,7 @@ const SIGNED_URL_EXPIRATION = 3600;
 
 export default async function getSignedUrl(bucket: string, key: string) {
   const s3 = new S3({
-    region: process.env.AWS_REGION,
+    region: process.env.BUCKET_REGION,
   });
   const command = new GetObjectCommand({
     Bucket: bucket,
