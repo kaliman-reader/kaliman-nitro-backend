@@ -2,7 +2,7 @@ import { _Object, PutObjectCommand, S3 } from "@aws-sdk/client-s3";
 import { PDFDocument } from "pdf-lib";
 
 const s3 = new S3({
-  region: "us-east-1",
+  region: process.env.BUCKET_REGION,
 });
 
 export default defineEventHandler(async (event) => {
