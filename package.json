@@ -4,14 +4,15 @@
     "prepare": "nitropack prepare",
     "dev": "nitropack dev",
     "build": "nitropack build",
-    "build:lambda": "NITRO_PRESET=aws_lambda nitropack build && cd .output/server && zip -r9 ../../server.zip *",
+    "build:lambda": "NITRO_PRESET=aws_lambda nitropack build",
+    "postbuild:lambda": "ditto -c -k --sequesterRsrc --keepParent .output/server server.zip",
     "preview": "node .output/server/index.mjs"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.385.0",
+    "@aws-sdk/client-s3": "^3.668.0",
     "@aws-sdk/client-secrets-manager": "^3.668.0",
     "@aws-sdk/cloudfront-signer": "^3.662.0",
-    "@aws-sdk/s3-request-presigner": "^3.385.0",
+    "@aws-sdk/s3-request-presigner": "^3.668.0",
     "date-fns": "^4.1.0",
     "nitropack": "latest",
     "pdf-lib": "^1.17.1"
