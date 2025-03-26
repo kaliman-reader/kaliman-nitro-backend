@@ -8,7 +8,7 @@ export default eventHandler(async (event) => {
 
   const cloudfrontDistributionDomain = config.awsCfBaseUrl;
   const url = `${cloudfrontDistributionDomain}/${key}`;
-  const privateKey = await getSecret(config.awsCfPrivateKeyName);
+  const privateKey = process.env.AWS_CF_PRIVATE_KEY;
   const keyPairId = config.awsCfKeyPairId;
   const dateLessThan = addMinutes(new Date(), 10).toISOString();
 
