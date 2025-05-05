@@ -5,4 +5,10 @@ export default defineNitroConfig({
     awsCfPrivateKeyName: "",
     awsCfBaseUrl: "",
   },
+  serverAssets: [
+    {
+      baseName: 'assets',
+      dir: './assets',
+    },
+  ],
 });
