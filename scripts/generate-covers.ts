@@ -49,7 +49,7 @@ async function getAllPrefixes(basePrefix = ""): Promise<string[]> {
   for (const prefix of commonPrefixes) {
     if (prefix.Prefix) {
       // Add this prefix
-      prefixes.push(prefix.Prefix.replace(/\/$/, ""));
+      prefixes.push(prefix.Prefix);
 
       // Recursively get subprefixes
       const subPrefixes = await getAllPrefixes(prefix.Prefix);
