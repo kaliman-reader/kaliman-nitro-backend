@@ -1,3 +1,3 @@
 export default eventHandler(() => {
-  return { message: "Hello World" };
+  return { message: "Comics API" };
 });

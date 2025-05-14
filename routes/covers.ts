@@ -8,7 +8,6 @@ export default eventHandler(async (event) => {
   const prefix = query.prefix as string;
 
   const storage = useStorage('assets:server');
-  console.log(await storage.getKeys())
   const coversMap = await storage.getItem<Record<string, string>>('covers.json');
 
   const key = coversMap[prefix] || coversMap[`${prefix}/`];
