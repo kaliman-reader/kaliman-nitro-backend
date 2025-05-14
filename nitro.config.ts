@@ -11,4 +11,5 @@ export default defineNitroConfig({
       dir: './assets',
     },
   ],
+  logLevel: +999
 });

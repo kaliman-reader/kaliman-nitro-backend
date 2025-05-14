@@ -7,6 +7,8 @@ node_modules
 dist
 server.zip
 keys
+.env.*
+.env
 
 .DS_Store
 assets/covers.json
