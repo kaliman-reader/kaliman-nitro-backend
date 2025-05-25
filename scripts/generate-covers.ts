@@ -109,13 +109,13 @@ async function findFirstThumbnailInPrefix(prefix: string): Promise<string | null
   return null;
 }
 
-async function generateCoversMap(): Promise<CoverMap> {
+async function generateCoversMap(basePrefix = ""): Promise<CoverMap> {
   console.log("Starting to generate covers map...");
   const coverMap: CoverMap = {};
 
   // Get all prefixes (folders)
   console.log("Fetching all prefixes from S3...");
-  const allPrefixes = await getAllPrefixes();
+  const allPrefixes = await getAllPrefixes(basePrefix);
   console.log(`Found a total of ${allPrefixes.length} prefixes to process`);
 
   // For each prefix, find the first thumbnail
@@ -158,20 +158,40 @@ async function main() {
   console.log(`Using bucket: ${process.env.BUCKET_NAME}`);
   console.log(`Using region: ${process.env.BUCKET_REGION}`);
 
+  // Get base prefix from command line arguments
+  const basePrefix = process.argv[2] || "";
+  console.log(`Using base prefix: "${basePrefix || 'root'}"`);
+
   const startTime = Date.now();
 
   try {
-    const coverMap = await generateCoversMap();
+    // Read existing covers map if it exists
+    const outputPath = path.join(__dirname, "../assets/covers.json");
+    let existingCoverMap: CoverMap = {};
+
+    if (fs.existsSync(outputPath)) {
+      console.log(`Reading existing covers map from: ${outputPath}`);
+      const existingData = fs.readFileSync(outputPath, 'utf-8');
+      existingCoverMap = JSON.parse(existingData);
+      console.log(`Found ${Object.keys(existingCoverMap).length} existing entries`);
+    }
+
+    // Generate new covers map with the specified base prefix
+    const newCoverMap = await generateCoversMap(basePrefix);
+
+    // Merge the maps, with new entries taking precedence
+    const mergedCoverMap = { ...existingCoverMap, ...newCoverMap };
 
     // Write to file
-    const outputPath = path.join(__dirname, "../assets/covers.json");
-    console.log(`\nWriting covers map to file: ${outputPath}`);
+    console.log(`\nWriting merged covers map to file: ${outputPath}`);
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
-    fs.writeFileSync(outputPath, JSON.stringify(coverMap, null, 2));
+    fs.writeFileSync(outputPath, JSON.stringify(mergedCoverMap, null, 2));
 
     const totalTime = ((Date.now() - startTime) / 1000).toFixed(2);
     console.log(`\n✅ Covers map generated successfully at ${outputPath}`);
-    console.log(`Total entries: ${Object.keys(coverMap).length}`);
+    console.log(`Existing entries: ${Object.keys(existingCoverMap).length}`);
+    console.log(`New entries: ${Object.keys(newCoverMap).length}`);
+    console.log(`Total entries after merge: ${Object.keys(mergedCoverMap).length}`);
     console.log(`Total execution time: ${totalTime} seconds`);
   } catch (error) {
     console.error("\n❌ Error generating covers map:", error);
