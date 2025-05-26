@@ -138,15 +138,17 @@ async function generateCoversMap(basePrefix = ""): Promise<CoverMap> {
       withThumbnail++;
       console.log(`✓ Added mapping: "${prefix}" → "${thumbnail}"`);
     } else {
+      // Use default thumbnail.jpg when no thumbnail is found
+      coverMap[prefix] = "thumbnail.jpg";
       withoutThumbnail++;
-      console.log(`✗ No thumbnail found for prefix: "${prefix}"`);
+      console.log(`⚠ No thumbnail found for prefix: "${prefix}", using default "thumbnail.jpg"`);
     }
   }
 
   console.log("\n=== Cover Map Generation Summary ===");
   console.log(`Total prefixes processed: ${processed}`);
   console.log(`Prefixes with thumbnails: ${withThumbnail}`);
-  console.log(`Prefixes without thumbnails: ${withoutThumbnail}`);
+  console.log(`Prefixes using default thumbnail: ${withoutThumbnail}`);
   console.log(`Coverage rate: ${Math.round(withThumbnail / processed * 100)}%`);
 
   return coverMap;
